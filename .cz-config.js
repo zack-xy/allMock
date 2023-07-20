@@ -21,7 +21,7 @@ module.exports = {
       name: 'chore:    Changes to the build process or auxiliary tools\n            and libraries such as documentation generation',
     },
     { value: 'revert', name: 'revert:   Revert to a commit' },
-    { value: 'WIP', name: 'WIP:      Work in progress' },
+    { value: 'wip', name: 'WIP:      Work in progress' },
   ],
 
   // 范围
