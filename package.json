@@ -1,0 +1,36 @@
+{
+  "name": "allmock",
+  "version": "0.0.1",
+  "description": "mock all my frontEnd projects",
+  "author": "zack zheng",
+  "license": "ISC",
+  "keywords": [
+    "mock"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.39.8",
+    "@commitlint/cli": "^17.6.7",
+    "@commitlint/config-conventional": "^17.6.7",
+    "cz-customizable": "7.0.0",
+    "eslint": "^8.45.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3"
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts,tsx,vue,md}": [
+      "eslint --cache --fix",
+      "git add"
+    ]
+  }
+}
