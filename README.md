@@ -6,7 +6,7 @@
 
 
 ### 启动
-`pnpm dev`
+`pnpm start`
 
 
 ### 调试
@@ -23,7 +23,7 @@
       "request": "launch",
       "runtimeExecutable": "${workspaceFolder}/node_modules/nodemon/bin/nodemon.js",
       "runtimeArgs": [
-        "--inspect=9229", // 可选：如果你需要调试，添加此行
+        "--inspect=9229",
         "-r",
         "ts-node/register",
         "--require",
@@ -43,3 +43,10 @@
 
 
 ```
+
+### 技术点
+
++ typescript
++ ts-node
++ koa2
++ mockjs
