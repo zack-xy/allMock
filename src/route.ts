@@ -10,11 +10,7 @@ router.get('/', async (ctx) => {
 
 router.post(/./, async (ctx) => {
   // const res = await Mock.asyncGeneratedData({ ...item })
-  const req: WhiteRequest = {
-    orginal: ctx.headers.origin,
-    originalUrl: ctx.request.originalUrl,
-  }
-  const res = await mock.mockData(req)
+  const res = await mock.mockData(ctx.request)
   ctx.body = res
 })
 

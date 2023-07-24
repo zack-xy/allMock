@@ -1,23 +1,17 @@
+// import type Application from 'koa'
 
 interface FormatFn {
- (options: any): object
+ (request: Application.Request): object
 }
 
-interface EXPFormat {
-  default: object | FormatFn
-}
+type Format = ReturnType<FormatFn> | FormatFn
 
 interface MockConfig {
-  format: object | FormatFn
+  format: Format
   timeout?: number
 }
 
-interface WhiteRequest {
-  orginal: string | undefined
-  originalUrl: string
-}
-
-interface WhiteItem {
+interface WhiteListItem {
   name: string
   host: string
 }

@@ -1,4 +1,5 @@
 import Mock from 'mockjs'
+import type Application from 'koa'
 import { constellations } from './extendRandom'
 import whiteList from '@/whiteConfig'
 
@@ -16,23 +17,14 @@ class NewMock {
     this.mock = Mock
   }
 
-  /**
-   * 异步mock数据
-   * @param {string} path  // 接口路径
-   * @param {object} format  // 数据格式（mockjs格式）
-   * @param {number} timeout  // 请求的响应时间，默认200-600毫秒
-   */
-  mockData(request: WhiteRequest, mockConfig?: MockConfig) {
+  // 请求的响应时间，默认100-500毫秒
+  mockData(request: Application.Request, mockConfig?: MockConfig) {
     return new Promise((resolve, reject) => {
-      let timeout = Math.floor(Math.random() * 401 + 200)
-      if (mockConfig && mockConfig.timeout)
-        timeout = mockConfig.timeout
-      getMockFormat(request)
+      getMockFormat(request, mockConfig?.format)
         .then((format) => {
           setTimeout(() => {
-            const mockData = Mock.mock(format)
-            resolve(mockData)
-          }, timeout)
+            resolve(Mock.mock(format))
+          }, mockConfig?.timeout || Math.floor(Math.random() * 401 + 100))
         }).catch((e) => {
           reject(e)
         })
@@ -41,21 +33,27 @@ class NewMock {
 }
 
 // 从文件中获取mockjs的format
-export async function getMockFormat(request: WhiteRequest): Promise<object | FormatFn> {
-  let format: EXPFormat = { default: {} }
-  const { orginal, originalUrl } = request
+export async function getMockFormat(request: Application.Request, format?: Format): Promise<object> {
+  const { headers, originalUrl } = request
   const pathToFileName = originalUrl.replace(/^\/*/, '').replace('/', '_')
-  const idx = whiteList.findIndex(item => item.host === orginal)
+  const idx = whiteList.findIndex(item => item.host === headers.origin)
   if (idx === -1)
-    return format.default
+    return getFormatObject(request, format || {})
   const { name } = whiteList[idx]
   try {
-    format = await import(`../../mocks/${name}/${pathToFileName}`)
+    const fileFormat = await import(`../../mocks/${name}/${pathToFileName}`)
+    return getFormatObject(request, fileFormat.default)
   }
   catch (e) {
     throw new Error(`没找到接口文件,项目:${name},接口:${originalUrl}`)
   }
-  return format.default
+}
+
+// 根据Format得到mock对象
+function getFormatObject(request: Application.Request, format: Format): object {
+  if (typeof format === 'object')
+    return format
+  return format(request)
 }
 
 export default NewMock
