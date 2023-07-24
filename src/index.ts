@@ -1,6 +1,7 @@
 import Koa from 'koa'
 import cors from 'koa2-cors'
 import bodyParser from 'koa-bodyparser'
+import chalk from 'chalk'
 import route from './route'
 
 const app = new Koa()
@@ -16,5 +17,10 @@ app.use(route.allowedMethods())
 
 app.listen(4000, () => {
   // eslint-disable-next-line no-console
-  console.log('Mock服务器已在4000端口启动')
+  console.log(
+    chalk
+      .bgGreenBright
+      .whiteBright
+      .bold('🚀 Mock服务器已启动-端口：4000 🚀'),
+  )
 })
