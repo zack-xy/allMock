@@ -2,7 +2,10 @@ export default {
   code: 200,
   msg: '登陆成功',
   data: {
-    'userId': '100001',
+    'times': '@increment',
+    'userId': '@pick(["111","222"])',
+    'img': '@imageBase64',
+    'img2': '@image',
     'userName': '@first',
     'state|1-3': 1, // 1:在职 2:离职 3:试用期
     'sex|1': [0, 1], // 性别：0:男 1:女

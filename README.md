@@ -4,6 +4,16 @@
 
 项目源自我的[砖块项目](https://github.com/zack-xy/o-bricks/tree/main/mockServer)
 
+特点：
+1. 使用ts
+2. 增加接口简单
+3. 支持配置多个项目
+4. 支持函数配置，可根据参数mock(假服务)
+5. 支持扩展Mock
+6. 支持自定义mock图片(原mockjs的图片占位符不可使用，包引用方式问题，暂时不考虑解决)
+7. ts-node直接启动ts
+8. nodemon自动重启
+9. 提供调试
 
 ### 启动
 `pnpm start`
@@ -48,8 +58,12 @@
 
 + typescript
 + ts-node
++ nodemon
 + koa2
++ canvas
 + mockjs
+
+
 
 
 ```javascript
@@ -112,6 +126,8 @@ export default {
        * @ip // ip地址
        * @id  // 随机id
        * @guid // id：1e17F035-27fD-eDEd-b545-4DC7E6f7551c
+       * @increment // 自增整数 @increment(1) // 步进1
+       * @pick(['a','b']) // 从数组中随机取一个
        * 
        * 
        * 地址：
@@ -142,7 +158,9 @@ export default {
         * Random.image( size?, background?, foreground?, format?, text? )
         * // 大小、背景色、文字颜色、格式、图片文字
         * @image('200x100', '#894FC4', '#FFF', 'png', 'Hello！')
-        * @dataImage // 生成base64，需要安装node-canvas，没安装，不能用
+        * @dataImage // mockjs包引用问题，暂不能直接使用，可以用@imageBase64
+        * // @imageBase64只提供了一个最简实现，待后续完成
+        * @dataImage('200x100', 'Hello Mock.js!')
         */
        /************************************************************************************/
        // 颜色类

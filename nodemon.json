@@ -1,5 +1,8 @@
 {
-  "watch": "src/**/*",
+  "watch": [
+    "src/**/*",
+    "mocks/**/*"
+  ],
   "ext": "js,ts,tsx",
   "exec": "ts-node --require ./tsconfig-paths.js src/index.ts",
   "execArgs": ["--inspect"]

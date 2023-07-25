@@ -1,6 +1,7 @@
 import Mock from 'mockjs'
 import type Application from 'koa'
 import { constellations } from './extendRandom'
+import { generateImgBase64 } from './randomImage'
 import whiteList from '@/whiteConfig'
 
 // 自定义占位符
@@ -13,6 +14,7 @@ class NewMock {
       constellation(date) {
         return this.pick(constellations)
       },
+      imageBase64: generateImgBase64,
     })
     this.mock = Mock
   }
