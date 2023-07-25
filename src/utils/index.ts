@@ -24,7 +24,9 @@ class NewMock {
         .then((format) => {
           setTimeout(() => {
             resolve(Mock.mock(format))
-          }, mockConfig?.timeout || Math.floor(Math.random() * 401 + 100))
+          }, mockConfig?.timeout === undefined
+            ? Math.floor(Math.random() * 401 + 100)
+            : mockConfig?.timeout)
         }).catch((e) => {
           reject(e)
         })
@@ -34,13 +36,16 @@ class NewMock {
 
 // 从文件中获取mockjs的format
 export async function getMockFormat(request: Application.Request, format?: Format): Promise<object> {
+  if (format) // 如果配置了format，则有限读取配置的format
+    return getFormatObject(request, format)
   const { headers, originalUrl } = request
-  const pathToFileName = originalUrl.replace(/^\/*/, '').replace('/', '_')
+  const pathToFileName = originalUrl.replace('/', '_')
   const idx = whiteList.findIndex(item => item.host === headers.origin)
-  if (idx === -1)
+  if (idx === -1) // 若白名单没有配置，则读取配置的format
     return getFormatObject(request, format || {})
   const { name } = whiteList[idx]
   try {
+    // 从白名单中匹配，以读取配置文件
     const fileFormat = await import(`../../mocks/${name}/${pathToFileName}`)
     return getFormatObject(request, fileFormat.default)
   }
@@ -54,6 +59,14 @@ function getFormatObject(request: Application.Request, format: Format): object {
   if (typeof format === 'object')
     return format
   return format(request)
+}
+
+// 重新设置Request
+// 排除路由的第一段路径，第一段路径表示项目
+export function resetRequest(request: Application.Request) {
+  const { originalUrl, headers, ...rest } = request
+  const newOriginalUrl = originalUrl ? originalUrl.replace(/\/*[^\/]*\//, '') : ''
+  return { ...rest, originalUrl: newOriginalUrl, headers }
 }
 
 export default NewMock

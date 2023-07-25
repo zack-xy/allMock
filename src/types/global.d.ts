@@ -7,7 +7,7 @@ interface FormatFn {
 type Format = ReturnType<FormatFn> | FormatFn
 
 interface MockConfig {
-  format: Format
+  format?: Format
   timeout?: number
 }
 
