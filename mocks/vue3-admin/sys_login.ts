@@ -1,6 +1,7 @@
 export default {
   code: 200,
-  msg: '登陆成功',
+  message: '登陆成功',
+  success: true,
   data: {
     'times': '@increment',
     'userId': '@pick(["111","222"])',
