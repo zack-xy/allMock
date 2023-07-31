@@ -16,3 +16,4 @@ package-lock.json
 .idea/vcs.xml
 .idea/inspectionProfiles/Project_Default.xml
 .eslintcache
+logs/
