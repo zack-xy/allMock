@@ -1,7 +1,11 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import Mock from 'mockjs'
 import type Application from 'koa'
+import type Router from 'koa-router'
 import { constellations } from './extendRandom'
 import { generateImgBase64 } from './randomImage'
+import { info } from './log4j'
 import whiteList from '@/whiteConfig'
 
 // 自定义占位符
@@ -69,6 +73,22 @@ export function resetRequest(request: Application.Request) {
   const { originalUrl, headers, ...rest } = request
   const newOriginalUrl = originalUrl ? originalUrl.replace(/\/*[^\/]*\//, '') : ''
   return { ...rest, originalUrl: newOriginalUrl, headers }
+}
+
+export function generatePath(name: string) {
+  return fs.readdirSync(path.resolve(__dirname, `../../mocks/${name}`))
+}
+
+export function generateNormalPost(name: string, router: Router) {
+  generatePath(name).forEach((fileName) => {
+    router.post(`/${fileName.replace('.ts', '').replace('_', '/')}`, async (ctx) => {
+      const request = resetRequest(ctx.request)
+      const { originalUrl } = request
+      info(`请求接口${originalUrl}`)
+      const res = await new NewMock().mockData(request)
+      ctx.body = res
+    })
+  })
 }
 
 export default NewMock
