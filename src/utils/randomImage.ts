@@ -33,3 +33,23 @@ export function generateImage(size?: string, color?: string) {
   // 可能通过Mock.Random.email()生成一些随机数据再返回
   return [] // 返回随机数据
 }
+
+/** 随机图片API
+ * 岁月小筑 https://img.xjh.me
+爱壁纸API api.isoyu.com
+保罗API https://api.paugram.com/help/wallpaper
+墨天逸 http://api.mtyqx.cn
+听风过畔 https://api.osgz.com
+如诗API https://api.likepoems.com
+Unsplash https://source.unsplash.com/
+小歪API https://api.ixiaowai.cn
+樱花API http://www.dmoe.cc/
+樱道 https://img.r10086.com/
+EEEDOG https://www.eee.dog/tech/rand-pic-api.html
+东方Project https://img.paulzzh.tech/
+动漫星空 https://api.dongmanxingkong.com/suijitupian.html
+随机生成图片大全：https://www.fang1688.cn/study-code/103.html
+随机美图API：https://cdn.seovx.com/
+二次元：http://www.dmoe.cc/random.php
+二次元：https://api.mz-moe.cn/img.php
+ */
