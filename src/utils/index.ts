@@ -4,7 +4,7 @@ import Mock from 'mockjs'
 import type Application from 'koa'
 import type Router from 'koa-router'
 import { constellations } from './extendRandom'
-import { generateImgBase64 } from './randomImage'
+import { generateImgBase64, generateUrlImg } from './randomImage'
 import { info } from './log4j'
 import whiteList from '@/whiteConfig'
 
@@ -19,6 +19,7 @@ class NewMock {
         return this.pick(constellations)
       },
       imageBase64: generateImgBase64,
+      imageUrl: generateUrlImg,
     })
     this.mock = Mock
   }

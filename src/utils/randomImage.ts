@@ -1,4 +1,5 @@
 import { createCanvas } from 'canvas'
+import { randomIntegerInRange } from './tools'
 
 // 这里是canvas官方例子代码
 // 这个扩展作为占位符@imageBase64已经可以获得base64的图片
@@ -33,6 +34,23 @@ export function generateImage(size?: string, color?: string) {
   // 可能通过Mock.Random.email()生成一些随机数据再返回
   return [] // 返回随机数据
 }
+
+export function generateUrlImg(width: number = 200, height?: number) {
+  const randomIdx = randomIntegerInRange(0, 6)
+  const imgApis = [
+    'https://img.xjh.me/random_img.php',
+    'https://cdn.seovx.com/d/?mom=302',
+    'https://api.r10086.com/樱道随机图片api接口.php?图片系列=动漫综合1',
+    'https://api.r10086.com/樱道随机图片api接口.php?图片系列=动漫综合2',
+    'https://img2.baidu.com/it/u=3654977212,2301797782&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=667',
+    'https://gd-hbimg.huaban.com/3566021105a8fc763e59b033c5dedbac4f92d2a41f0de-jTELRL_fw658',
+    'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201907%2F16%2F20190716195837_vsaMV.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1709991751&t=1e3dd3afbd9c668eac0c9a81f961de6f',
+    'https://img0.baidu.com/it/u=1817709836,3411811934&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500',
+  ]
+  return imgApis[randomIdx]
+}
+
+// https://cdn.seovx.com/d/?mom=302
 
 /** 随机图片API
  * 岁月小筑 https://img.xjh.me
