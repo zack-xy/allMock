@@ -46,7 +46,7 @@ export async function getMockFormat(request: Application.Request, format?: Forma
   if (format) // 如果配置了format，则有限读取配置的format
     return getFormatObject(request, format)
   const { headers, originalUrl } = request
-  const pathToFileName = originalUrl.replace('/', '_')
+  const pathToFileName = originalUrl.replace(/\//g, '_')
   const idx = whiteList.findIndex(item => item.host === headers.origin)
   if (idx === -1) // 若白名单没有配置，则读取配置的format
     return getFormatObject(request, format || {})
@@ -82,7 +82,7 @@ export function generatePath(name: string) {
 
 export function generateNormalPost(name: string, router: Router) {
   generatePath(name).forEach((fileName) => {
-    router.post(`/${fileName.replace('.ts', '').replace('_', '/')}`, async (ctx) => {
+    router.post(`/${fileName.replace('.ts', '').replace(/_/g, '/')}`, async (ctx) => {
       const request = resetRequest(ctx.request)
       const { originalUrl } = request
       info(`请求接口${originalUrl}`)
