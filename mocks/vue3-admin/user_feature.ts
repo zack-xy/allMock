@@ -59,5 +59,10 @@ export default {
       title: '可配置搜索侧边栏',
       percentage: 100,
     },
+    {
+      id: '@id',
+      title: '打印功能',
+      percentage: 100,
+    },
   ],
 }
