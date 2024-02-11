@@ -5,6 +5,7 @@ export default {
   data: {
     'list|5-15': [
       {
+        'id': '@id',
         'ranking|+1': 1,
         'title': '@ctitle',
         'author': '@cname',
