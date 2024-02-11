@@ -32,7 +32,15 @@ export default function response(request: Application.Request): object {
         'articleRanking',
         'articleCreate',
       ])
-      points.push(...[])
+      points.push(...[
+        'importUser',
+      ])
+    }
+    else if (userName === 'test') {
+      menus.push(...[
+        'articleRanking',
+        'articleCreate',
+      ])
     }
 
     if (request.headers && request.headers.authorization)
