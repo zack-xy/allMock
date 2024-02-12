@@ -64,5 +64,10 @@ export default {
       title: '打印功能',
       percentage: 100,
     },
+    {
+      id: '@id',
+      title: '富文本和markdown',
+      percentage: 100,
+    },
   ],
 }
