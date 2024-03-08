@@ -3,6 +3,7 @@
 // 读mocks/vue3-admin文件夹内的文件
 const whiteList: Array<WhiteListItem> = [
   { name: 'vue3-admin', host: 'http://localhost:8080' },
+  { name: 'react-schedule', host: 'http://localhost:3000' },
 ]
 
 export default whiteList

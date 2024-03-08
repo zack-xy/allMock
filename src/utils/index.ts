@@ -18,8 +18,8 @@ class NewMock {
       constellation(date) {
         return this.pick(constellations)
       },
-      imageBase64: generateImgBase64,
-      imageUrl: generateUrlImg,
+      imageBase64: generateImgBase64, // 生成一个随机的base64图片
+      imageUrl: generateUrlImg, // 生成一个随机的url图片
     })
     this.mock = Mock
   }
@@ -43,7 +43,7 @@ class NewMock {
 
 // 从文件中获取mockjs的format
 export async function getMockFormat(request: Application.Request, format?: Format): Promise<object> {
-  if (format) // 如果配置了format，则有限读取配置的format
+  if (format) // 如果配置了format，则优先读取配置的format
     return getFormatObject(request, format)
   const { headers, originalUrl } = request
   const pathToFileName = originalUrl.replace(/\//g, '_')
@@ -76,10 +76,12 @@ export function resetRequest(request: Application.Request) {
   return { ...rest, originalUrl: newOriginalUrl, headers }
 }
 
+// 过滤项目名文件夹下不以__开头的文件名
 export function generatePath(name: string) {
-  return fs.readdirSync(path.resolve(__dirname, `../../mocks/${name}`))
+  return fs.readdirSync(path.resolve(__dirname, `../../mocks/${name}`)).filter(name => !name.startsWith('__'))
 }
 
+// 生成一般的post请求Mock
 export function generateNormalPost(name: string, router: Router) {
   generatePath(name).forEach((fileName) => {
     router.post(`/${fileName.replace('.ts', '').replace(/_/g, '/')}`, async (ctx) => {

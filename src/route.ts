@@ -3,6 +3,7 @@ import Router from 'koa-router'
 // import Mock from '@/utils/index'
 
 import vue3AdminRoute from '@/route/vue3-admin'
+import reactSchedule from '@/route/react-schedule'
 
 const router = new Router()
 // const mock = new Mock()
@@ -23,6 +24,12 @@ router.use(
   '/vue3-admin',
   vue3AdminRoute.routes(),
   vue3AdminRoute.allowedMethods(),
+)
+
+router.use(
+  '/react-schedule',
+  reactSchedule.routes(),
+  reactSchedule.allowedMethods(),
 )
 
 export default router
