@@ -1,7 +1,8 @@
 export default { 
   errno: 0, 
   data: {
-    list: []
+    id: '@id',
+    title: '@ctitle'
   }, 
   msg: 'zack' 
 }
