@@ -66,7 +66,7 @@ export default function response(request: Application.Request): object {
           isDeleted: false
         }
       ],
-      total: 1000
+      total: 100
     },
     msg: 'zack'
   }
