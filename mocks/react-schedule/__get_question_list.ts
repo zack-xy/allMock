@@ -1,15 +1,21 @@
 import type Application from 'koa'
+type QueryParams = {
+  page: string
+  pageSize: string
+}
 export default function response(request: Application.Request): object {
-  const { originalUrl } = request
+  const { originalUrl, ctx: { query = {}} } = request
   const isStar = originalUrl.indexOf('isStar=true') !== -1
   const isDeleted = originalUrl.indexOf('isDeleted=true') !== -1
+  const pageSize = parseInt((query as QueryParams).pageSize)
+  const page = parseInt((query as QueryParams).page)
 
 
   if(isStar) {
     return {
       errno: 0,
       data: {
-        "list|5-15": [
+        [`list|${pageSize}`]: [
           {
             _id: '@id',
             title: '@ctitle',
@@ -29,7 +35,7 @@ export default function response(request: Application.Request): object {
     return {
       errno: 0,
       data: {
-        "list|5-15": [
+        [`list|${pageSize}`]: [
           {
             _id: '@id',
             title: '@ctitle',
@@ -49,7 +55,7 @@ export default function response(request: Application.Request): object {
   return {
     errno: 0,
     data: {
-      "list|5-15": [
+      [`list|${pageSize}`]: [
         {
           _id: '@id',
           title: '@ctitle',
