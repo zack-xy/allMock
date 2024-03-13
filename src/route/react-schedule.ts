@@ -1,6 +1,7 @@
 import path from 'node:path'
 import Router from 'koa-router'
 import {
+  deleteQuestionBatchDeleteFormat,
   getQuestionIdFormat,
   getQuestionListFormat,
   patchQuestionIdFormat,
@@ -41,6 +42,15 @@ router.patch('/question/:id', async (ctx) => {
   const { originalUrl } = request
   info(`请求接口：/${originalUrl}`)
   const res = await mock.mockData(request, { format: patchQuestionIdFormat })
+  ctx.body = res
+})
+
+// 批量删除问卷
+router.delete('/question/batchDelete', async (ctx) => {
+  const request = resetRequest(ctx.request)
+  const { originalUrl } = request
+  info(`请求接口：/${originalUrl}`)
+  const res = await mock.mockData(request, { format: deleteQuestionBatchDeleteFormat })
   ctx.body = res
 })
 
