@@ -31,6 +31,15 @@ router.get('/question/:id', async (ctx) => {
   ctx.body = res
 })
 
+// 更新问卷信息
+router.patch('/question/:id', async (ctx) => {
+  const request = resetRequest(ctx.request)
+  const { originalUrl } = request
+  info(`请求接口：/${originalUrl}`)
+  const res = await mock.mockData(request, { format: questionIdFormat })
+  ctx.body = res
+})
+
 // 问卷列表
 router.get('/questions/list', async (ctx) => {
   const request = resetRequest(ctx.request)
