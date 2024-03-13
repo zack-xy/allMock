@@ -1,7 +1,11 @@
 import path from 'node:path'
 import Router from 'koa-router'
-import questionIdFormat from 'mock/react-schedule/__get_question_id'
-import questionListFormat from 'mock/react-schedule/__get_question_list'
+import {
+  getQuestionIdFormat,
+  getQuestionListFormat,
+  patchQuestionIdFormat,
+  postQuestionDuplicateFormat,
+} from 'mock/react-schedule/__export_format'
 import Mock, { generateNormalPost, resetRequest } from '@/utils/index'
 import { info } from '@/utils/log4j'
 
@@ -27,7 +31,7 @@ router.get('/question/:id', async (ctx) => {
   const request = resetRequest(ctx.request)
   const { originalUrl } = request
   info(`请求接口：/${originalUrl}`)
-  const res = await mock.mockData(request, { format: questionIdFormat })
+  const res = await mock.mockData(request, { format: getQuestionIdFormat })
   ctx.body = res
 })
 
@@ -36,7 +40,18 @@ router.patch('/question/:id', async (ctx) => {
   const request = resetRequest(ctx.request)
   const { originalUrl } = request
   info(`请求接口：/${originalUrl}`)
-  const res = await mock.mockData(request, { format: questionIdFormat })
+  const res = await mock.mockData(request, { format: patchQuestionIdFormat })
+  ctx.body = res
+})
+
+// 复制问卷
+router.post('/question/duplicate/:id', async (ctx) => {
+  const request = resetRequest(ctx.request)
+  const { originalUrl } = request
+  info(`请求接口：/${originalUrl}`)
+  const res = await mock.mockData(request, {
+    format: postQuestionDuplicateFormat,
+  })
   ctx.body = res
 })
 
@@ -45,7 +60,7 @@ router.get('/questions/list', async (ctx) => {
   const request = resetRequest(ctx.request)
   const { originalUrl } = request
   info(`请求接口：/${originalUrl}`)
-  const res = await mock.mockData(request, { format: questionListFormat })
+  const res = await mock.mockData(request, { format: getQuestionListFormat })
   ctx.body = res
 })
 
