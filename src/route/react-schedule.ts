@@ -4,6 +4,7 @@ import {
   deleteQuestionBatchDeleteFormat,
   getQuestionIdFormat,
   getQuestionListFormat,
+  getUserInfoFormat,
   patchQuestionIdFormat,
   postQuestionDuplicateFormat,
 } from 'mock/react-schedule/__export_format'
@@ -71,6 +72,15 @@ router.get('/questions/list', async (ctx) => {
   const { originalUrl } = request
   info(`请求接口：/${originalUrl}`)
   const res = await mock.mockData(request, { format: getQuestionListFormat })
+  ctx.body = res
+})
+
+// 获取用户信息
+router.get('/user/info', async (ctx) => {
+  const request = resetRequest(ctx.request)
+  const { originalUrl } = request
+  info(`请求接口：/${originalUrl}`)
+  const res = await mock.mockData(request, { format: getUserInfoFormat })
   ctx.body = res
 })
 
