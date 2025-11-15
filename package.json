@@ -24,7 +24,6 @@
     "@types/koa-bodyparser": "^4.3.10",
     "@types/koa-router": "^7.4.4",
     "@types/koa2-cors": "^2.0.2",
-    "canvas": "^2.11.2",
     "chalk": "4.1.2",
     "jsonwebtoken": "^9.0.1",
     "koa": "^2.14.2",

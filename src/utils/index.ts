@@ -4,7 +4,7 @@ import Mock from 'mockjs'
 import type Application from 'koa'
 import type Router from 'koa-router'
 import { constellations } from './extendRandom'
-import { generateImgBase64, generateUrlImg } from './randomImage'
+import { generateUrlImg } from './randomImage'
 import { info } from './log4j'
 import whiteList from '@/whiteConfig'
 
@@ -18,7 +18,7 @@ class NewMock {
       constellation(date) {
         return this.pick(constellations)
       },
-      imageBase64: generateImgBase64, // 生成一个随机的base64图片
+      // imageBase64: generateImgBase64, // 生成一个随机的base64图片
       imageUrl: generateUrlImg, // 生成一个随机的url图片
     })
     this.mock = Mock

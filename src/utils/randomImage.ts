@@ -1,4 +1,4 @@
-import { createCanvas } from 'canvas'
+// import { createCanvas } from 'canvas'
 import { randomIntegerInRange } from './tools'
 
 // 这里是canvas官方例子代码
@@ -6,26 +6,26 @@ import { randomIntegerInRange } from './tools'
 // 方法2：应该还可以读取文件作为随机图片
 // 方法3: 应该也可以对接提供图片服务的API
 // TODO 待完善随机生成图片的方法(使用canvas可以做出更加复杂的图片)
-export function generateImgBase64() {
-  const canvas = createCanvas(200, 200)
-  const ctx = canvas.getContext('2d')
+// export function generateImgBase64() {
+//   const canvas = createCanvas(200, 200)
+//   const ctx = canvas.getContext('2d')
 
-  // Write "Awesome!"
-  ctx.font = '30px Impact'
-  ctx.rotate(0.1)
-  ctx.fillText('Awesome!', 50, 100)
+//   // Write "Awesome!"
+//   ctx.font = '30px Impact'
+//   ctx.rotate(0.1)
+//   ctx.fillText('Awesome!', 50, 100)
 
-  // Draw line under text
-  const text = ctx.measureText('Awesome!')
-  ctx.strokeStyle = 'rgba(0,0,0,0.5)'
-  ctx.beginPath()
-  ctx.lineTo(50, 102)
-  ctx.lineTo(50 + text.width, 102)
-  ctx.stroke()
+//   // Draw line under text
+//   const text = ctx.measureText('Awesome!')
+//   ctx.strokeStyle = 'rgba(0,0,0,0.5)'
+//   ctx.beginPath()
+//   ctx.lineTo(50, 102)
+//   ctx.lineTo(50 + text.width, 102)
+//   ctx.stroke()
 
-  // console.log(`<img src="${canvas.toDataURL()}" />`)
-  return canvas.toDataURL()
-}
+//   // console.log(`<img src="${canvas.toDataURL()}" />`)
+//   return canvas.toDataURL()
+// }
 
 // 可以传递参数
 // TODO 自定义扩展
