@@ -1,4 +1,8 @@
 import Router from 'koa-router'
+import fs from 'node:fs'
+import path from 'node:path'
+import { error } from "./utils/log4j"
+import { generateNormalPost } from '@/utils/index'
 
 // import Mock from '@/utils/index'
 
@@ -31,5 +35,23 @@ router.use(
   reactSchedule.routes(),
   reactSchedule.allowedMethods(),
 )
+
+
+let allMockFolders = []
+try {
+  // 排除掉vue3-admin和react-schedule这两个示例项目名
+  allMockFolders = fs.readdirSync(path.resolve(__dirname, `../mocks`)).filter(name => name !== 'vue3-admin' && name !== 'react-schedule')
+  allMockFolders.forEach((name) => {
+    const subRouter = new Router()
+    generateNormalPost(name, subRouter)
+    router.use(
+      `/${name}`,
+      subRouter.routes(),
+      subRouter.allowedMethods(),
+    )
+  })
+} catch (e) {
+  error(String(e))
+}
 
 export default router
