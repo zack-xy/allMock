@@ -82,7 +82,7 @@ interface PathReqInfo {
   reqType: 'post' | 'get' | 'delete' | 'put' | 'patch'
   fileName: string
 }
-``
+
 // 过滤所有项目
 export function generatePath(name: string) {
   const allResults = fs.readdirSync(path.resolve(__dirname, `../../mocks/${name}`))
