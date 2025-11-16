@@ -48,9 +48,11 @@ export async function getMockFormat(request: Application.Request, format?: Forma
   const { headers, originalUrl } = request
   const pathToFileName = originalUrl.replace(/\//g, '_')
   const idx = whiteList.findIndex(item => item.host === headers.origin)
-  if (idx === -1) // 若白名单没有配置，则读取配置的format
-    return getFormatObject(request, format || {})
-  const { name } = whiteList[idx]
+  const folderName = request.req.url?.split('/')[1] || ''
+  let name = ''
+  if (idx !== -1) name = whiteList[idx].name
+  if (fs.existsSync(path.resolve(__dirname, `../../mocks/${folderName}`))) name = folderName
+  if (name === '') return getFormatObject(request, format || {})
   try {
     // 从白名单中匹配，以读取配置文件
     const fileFormat = await import(`../../mocks/${name}/${pathToFileName}`)
@@ -76,15 +78,58 @@ export function resetRequest(request: Application.Request) {
   return { ...rest, originalUrl: newOriginalUrl, headers }
 }
 
-// 过滤项目名文件夹下不以__开头的文件名
+interface PathReqInfo {
+  reqType: 'post' | 'get' | 'delete' | 'put' | 'patch'
+  fileName: string
+}
+``
+// 过滤所有项目
 export function generatePath(name: string) {
-  return fs.readdirSync(path.resolve(__dirname, `../../mocks/${name}`)).filter(name => !name.startsWith('__'))
+  const allResults = fs.readdirSync(path.resolve(__dirname, `../../mocks/${name}`))
+  let ret: Array<PathReqInfo> = []
+  for (const str of allResults) {
+    if(str.startsWith('__')) {
+      ret.push(getReqTypeAndFileName(str))
+    } else {
+      ret.push({
+        reqType: 'post',
+        fileName: str
+      })
+    }
+  }
+  return ret
+}
+
+function getReqTypeAndFileName(str: string): PathReqInfo {
+  const parts = str.replace('__', '')
+  if(parts.startsWith('get')) return {
+    reqType: 'get',
+    fileName: parts.replace('get_', '')
+  }
+  if(parts.startsWith('delete')) return {
+    reqType: 'delete',
+    fileName: parts.replace('delete_', '')
+  }
+  if(parts.startsWith('put')) return {
+    reqType: 'put',
+    fileName: parts.replace('put_', '')
+  }
+  if(parts.startsWith('patch')) return {
+    reqType: 'put',
+    fileName: parts.replace('patch_', '')
+  }
+  return {
+    reqType: 'post',
+    fileName: parts
+  }
 }
 
 // 生成一般的post请求Mock
 export function generateNormalPost(name: string, router: Router) {
-  generatePath(name).forEach((fileName) => {
-    router.post(`/${fileName.replace('.ts', '').replace(/_/g, '/')}`, async (ctx) => {
+  const allPath = generatePath(name)
+  // 处理post请求
+  allPath.forEach(({reqType, fileName}) => {
+    router[reqType](`/${fileName.replace('.ts', '').replace(/_/g, '/')}`, async (ctx) => {
       const request = resetRequest(ctx.request)
       const { originalUrl } = request
       info(`请求接口${originalUrl}`)
@@ -92,6 +137,7 @@ export function generateNormalPost(name: string, router: Router) {
       ctx.body = res
     })
   })
+  // 处理其他类型请求
 }
 
 export default NewMock
