@@ -115,7 +115,7 @@ function getReqTypeAndFileName(str: string): PathReqInfo {
     fileName: parts.replace('put_', '')
   }
   if(parts.startsWith('patch')) return {
-    reqType: 'put',
+    reqType: 'patch',
     fileName: parts.replace('patch_', '')
   }
   return {
