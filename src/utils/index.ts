@@ -46,11 +46,13 @@ export async function getMockFormat(request: Application.Request, format?: Forma
   if (format) // 如果配置了format，则优先读取配置的format
     return getFormatObject(request, format)
   const { headers, originalUrl } = request
-  const pathToFileName = originalUrl.replace(/\//g, '_')
-  const idx = whiteList.findIndex(item => item.host === headers.origin)
+  let pathToFileName = originalUrl.replace(/\//g, '_')
+  const reqMethod = request.req.method!.toLowerCase()
+  if (reqMethod !== 'post') pathToFileName = `__${reqMethod}_${pathToFileName}`
+  // const idx = whiteList.findIndex(item => item.host === headers.origin)
   const folderName = request.req.url?.split('/')[1] || ''
   let name = ''
-  if (idx !== -1) name = whiteList[idx].name
+  // if (idx !== -1) name = whiteList[idx].name
   if (fs.existsSync(path.resolve(__dirname, `../../mocks/${folderName}`))) name = folderName
   if (name === '') return getFormatObject(request, format || {})
   try {
@@ -120,7 +122,7 @@ function getReqTypeAndFileName(str: string): PathReqInfo {
   }
   return {
     reqType: 'post',
-    fileName: parts
+    fileName: str
   }
 }
 

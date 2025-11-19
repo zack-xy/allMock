@@ -6,8 +6,8 @@ import { generateNormalPost } from '@/utils/index'
 
 // import Mock from '@/utils/index'
 
-import vue3AdminRoute from '@/route/vue3-admin'
-import reactSchedule from '@/route/react-schedule'
+// import vue3AdminRoute from '@/route/vue3-admin'
+// import reactSchedule from '@/route/react-schedule'
 
 const router = new Router()
 // const mock = new Mock()
@@ -24,23 +24,20 @@ const router = new Router()
 // })
 
 // 以/vue3-admin开头的路由都被vue3AdminRoute处理
-router.use(
-  '/vue3-admin',
-  vue3AdminRoute.routes(),
-  vue3AdminRoute.allowedMethods(),
-)
+// router.use(
+//   '/vue3-admin',
+//   vue3AdminRoute.routes(),
+//   vue3AdminRoute.allowedMethods(),
+// )
 
-router.use(
-  '/react-schedule',
-  reactSchedule.routes(),
-  reactSchedule.allowedMethods(),
-)
+// router.use(
+//   '/react-schedule',
+//   reactSchedule.routes(),
+//   reactSchedule.allowedMethods(),
+// )
 
-
-let allMockFolders = []
 try {
-  // 排除掉vue3-admin和react-schedule这两个示例项目名
-  allMockFolders = fs.readdirSync(path.resolve(__dirname, `../mocks`)).filter(name => name !== 'vue3-admin' && name !== 'react-schedule')
+  const allMockFolders = fs.readdirSync(path.resolve(__dirname, `../mocks`))
   allMockFolders.forEach((name) => {
     const subRouter = new Router()
     generateNormalPost(name, subRouter)
