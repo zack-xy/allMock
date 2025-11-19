@@ -40,12 +40,13 @@ try {
   const allMockFolders = fs.readdirSync(path.resolve(__dirname, `../mocks`))
   allMockFolders.forEach((name) => {
     const subRouter = new Router()
-    generateNormalPost(name, subRouter)
-    router.use(
-      `/${name}`,
-      subRouter.routes(),
-      subRouter.allowedMethods(),
-    )
+    generateNormalPost(name, subRouter).then(() => {
+      router.use(
+        `/${name}`,
+        subRouter.routes(),
+        subRouter.allowedMethods(),
+      )
+    })
   })
 } catch (e) {
   error(String(e))

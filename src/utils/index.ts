@@ -6,6 +6,7 @@ import type Router from 'koa-router'
 import { constellations } from './extendRandom'
 import { generateUrlImg } from './randomImage'
 import { info } from './log4j'
+import { access, constants } from "fs/promises";
 import whiteList from '@/whiteConfig'
 
 // 自定义占位符
@@ -61,7 +62,7 @@ export async function getMockFormat(request: Application.Request, format?: Forma
     return getFormatObject(request, fileFormat.default)
   }
   catch (e) {
-    throw new Error(`没找到接口文件,项目:${name},接口:${originalUrl}`)
+    throw new Error(`没找到接口文件,项目:${name},接口:${request.req.url}`)
   }
 }
 
@@ -87,7 +88,7 @@ interface PathReqInfo {
 
 // 过滤所有项目
 export function generatePath(name: string) {
-  const allResults = fs.readdirSync(path.resolve(__dirname, `../../mocks/${name}`))
+  const allResults = fs.readdirSync(path.resolve(__dirname, `../../mocks/${name}`)).filter(str => str !== '__custom.ts')
   let ret: Array<PathReqInfo> = []
   for (const str of allResults) {
     if(str.startsWith('__')) {
@@ -127,19 +128,24 @@ function getReqTypeAndFileName(str: string): PathReqInfo {
 }
 
 // 生成一般的post请求Mock
-export function generateNormalPost(name: string, router: Router) {
+export async function generateNormalPost(name: string, router: Router) {
   const allPath = generatePath(name)
-  // 处理post请求
+  // 处理post请求和一般请求
   allPath.forEach(({reqType, fileName}) => {
     router[reqType](`/${fileName.replace('.ts', '').replace(/_/g, '/')}`, async (ctx) => {
       const request = resetRequest(ctx.request)
-      const { originalUrl } = request
-      info(`请求接口${originalUrl}`)
+      info(`请求接口: ${request.req.url}`)
       const res = await new NewMock().mockData(request)
       ctx.body = res
     })
   })
-  // 处理其他类型请求
+  // 处理自定义请求
+  try {
+    await access(path.resolve(__dirname,`../../mocks/${name}/__custom.ts`), constants.F_OK);
+    const code = await import(path.resolve(__dirname,`../../mocks/${name}/__custom.ts`))
+    code && code.default && typeof code.default === 'function' && code.default(router)
+  } catch (error) {
+  }
 }
 
 export default NewMock
