@@ -1,0 +1,5 @@
+export default {
+  code: 200,
+  data: {},
+  msg: "删除成功"
+}
