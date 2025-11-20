@@ -193,6 +193,39 @@ function getRolesData(request: Request) {
   }
 }
 
+function getUsersData(request: Request) {
+  return {
+    code: 200,
+    data: {
+      "list|5-10":
+        [
+          {
+            _id: '@id',
+            userId: '@id',
+            userName: '@cname',
+            userEmail: '@email',
+            deptId: '@id',
+            "state|1": [1, 2],
+            mobile: 1212321,
+            job: '@string(5)',
+            role: '@string(5)',
+            roleList: '@string(5)',
+            createId: 21321321,
+            createTime: '@datetime',
+            deptName: '@string(5)',
+            userImg: '@string(5)',
+          }
+        ],
+      page: {
+        pageNum: 1,
+        pageSize: 10,
+        total: 200
+      },
+    },
+    msg: '成功'
+  }
+}
+
 export default function (router: Router) {
   router.get('/test/:id', async (ctx) => {
     const request = resetRequest(ctx.request)
@@ -226,6 +259,15 @@ export default function (router: Router) {
     const request = resetRequest(ctx.request)
     info(`请求接口：${request.req.url}`)
     const res = await mock.mockData(request, { format: getRolesData })
+    ctx.body = res
+  })
+
+  router.get("/users/list", async (ctx) => {
+    // ctx.query 会自动解析查询参数
+    const { menuName, menuState } = ctx.query;
+    const request = resetRequest(ctx.request)
+    info(`请求接口：${request.req.url}`)
+    const res = await mock.mockData(request, { format: getUsersData })
     ctx.body = res
   })
 

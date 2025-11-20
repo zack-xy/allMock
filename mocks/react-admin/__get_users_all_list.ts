@@ -7,7 +7,7 @@ export default {
       userName: "David",
       userEmail: "david1000@gmail.com"
     },
-    {
+    { 
       _id: "@id",
       userId: 1000002,
       userName: "Kevin",
