@@ -53,7 +53,107 @@ function getDepListData(request: Request) {
   }
 }
 
-export default function(router: Router) {
+function getMenuData(request: Request) {
+  return {
+    code: 200,
+    data: [
+      {
+        _id: "111",
+        menuName: "Dashboard",
+        icon: "DesktopOutlineed",
+        path: "/dashboard",
+        menuType: 1,
+        menuCode: "",
+        parentId: "",
+        component: "",
+        menuStatus: 1,
+        createTime: "@datetime",
+        buttons: [
+        ],
+        children: [
+          {
+            _id: "1111",
+            menuName: "查看",
+            icon: "DesktopOutlineed",
+            path: "/dashboard",
+            menuType: 2,
+            menuCode: "home@query",
+            parentId: "111",
+            component: "",
+            menuStatus: 1,
+            createTime: "@datetime",
+          }
+        ]
+      },
+      {
+        _id: "222",
+        menuName: "用户模块",
+        icon: "UsergroupAddOutlined",
+        path: "",
+        menuType: 1,
+        menuCode: "",
+        parentId: "",
+        component: "",
+        menuStatus: 1,
+        createTime: "@datetime",
+        buttons: [],
+        children: [
+          {
+            _id: "2221",
+            menuName: "用户列表",
+            icon: "DesktopOutlineed",
+            path: "/userList",
+            menuType: 1,
+            menuCode: "user@query",
+            parentId: "222",
+            component: "",
+            menuStatus: 1,
+            createTime: "@datetime",
+          },
+          {
+            _id: "2222",
+            menuName: "菜单管理",
+            icon: "DesktopOutlineed",
+            path: "/userList",
+            menuType: 1,
+            menuCode: "user@query",
+            parentId: "222",
+            component: "",
+            menuStatus: 1,
+            createTime: "@datetime",
+          },
+          {
+            _id: "2223",
+            menuName: "角色管理",
+            icon: "DesktopOutlineed",
+            path: "/userList",
+            menuType: 1,
+            menuCode: "user@query",
+            parentId: "222",
+            component: "",
+            menuStatus: 1,
+            createTime: "@datetime",
+          },
+          {
+            _id: "2224",
+            menuName: "部门管理",
+            icon: "DesktopOutlineed",
+            path: "/userList",
+            menuType: 1,
+            menuCode: "user@query",
+            parentId: "222",
+            component: "",
+            menuStatus: 1,
+            createTime: "@datetime",
+          }
+        ]
+      }
+    ],
+    msg: '成功'
+  }
+}
+
+export default function (router: Router) {
   router.get('/test/:id', async (ctx) => {
     const request = resetRequest(ctx.request)
     info(`请求接口：${request.req.url}`)
@@ -67,7 +167,16 @@ export default function(router: Router) {
     console.log("查询部门名:", deptName);
     const request = resetRequest(ctx.request)
     info(`请求接口：${request.req.url}`)
-    const res = await mock.mockData(request, {format: getDepListData})
+    const res = await mock.mockData(request, { format: getDepListData })
+    ctx.body = res
+  })
+
+  router.get("/menu/list", async (ctx) => {
+    // ctx.query 会自动解析查询参数
+    const { menuName, menuState } = ctx.query;
+    const request = resetRequest(ctx.request)
+    info(`请求接口：${request.req.url}`)
+    const res = await mock.mockData(request, { format: getMenuData })
     ctx.body = res
   })
 }
