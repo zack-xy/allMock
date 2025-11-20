@@ -153,6 +153,46 @@ function getMenuData(request: Request) {
   }
 }
 
+function getRolesData(request: Request) {
+  return {
+    code: 200,
+    data: {
+      list: [
+        {
+          permissionList: {
+            checkedKeys: [],
+            halfCheckedKeys: []
+          },
+          _id: "@id",
+          roleName: "一般管理员",
+          createId: 1000002,
+          updateTime: "@datetime",
+          createTime: "@datetime",
+          __v: 0
+        },
+        {
+          permissionList: {
+            checkedKeys: [],
+            halfCheckedKeys: []
+          },
+          _id: "@id",
+          roleName: "一般管理员",
+          createId: 1000002,
+          updateTime: "@datetime",
+          createTime: "@datetime",
+          __v: 0
+        }
+      ],
+      page: {
+        pageNum: 1,
+        pageSize: 10,
+        total: 200
+      },
+    },
+    msg: '成功'
+  }
+}
+
 export default function (router: Router) {
   router.get('/test/:id', async (ctx) => {
     const request = resetRequest(ctx.request)
@@ -179,4 +219,14 @@ export default function (router: Router) {
     const res = await mock.mockData(request, { format: getMenuData })
     ctx.body = res
   })
+
+  router.get("/roles/list", async (ctx) => {
+    // ctx.query 会自动解析查询参数
+    const { menuName, menuState } = ctx.query;
+    const request = resetRequest(ctx.request)
+    info(`请求接口：${request.req.url}`)
+    const res = await mock.mockData(request, { format: getRolesData })
+    ctx.body = res
+  })
+
 }
